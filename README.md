@@ -1,3 +1,5 @@
+[![FINOS - Incubating](https://cdn.jsdelivr.net/gh/finos/contrib-toolbox@master/images/badge-incubating.svg)](https://finosfoundation.atlassian.net/wiki/display/FINOS/Incubating)
+
 # FINOS Legend SDLC Operator
 
 ## Description
@@ -39,3 +41,15 @@ $ juju relate finos-legend-sdlc-k8s finos-legend-studio-k8s
 
 This charm by default uses the latest version of the
 [finos/legend-sdlc-server](https://hub.docker.com/r/finos/legend-sdlc-server) image.
+
+## Contributing
+
+Visit Legend [Contribution Guide](https://github.com/finos/legend/blob/master/CONTRIBUTING.md) to learn how to contribute to Legend.
+
+## License
+
+Copyright (c) 2021-present, Canonical
+
+Distributed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
+
+SPDX-License-Identifier: [Apache-2.0](https://spdx.org/licenses/Apache-2.0)
