@@ -279,24 +279,11 @@ class LegendSDLCServerCharm(legend_operator_base.BaseFinosLegendCoreServiceCharm
 
         return {SDLC_CONFIG_FILE_CONTAINER_LOCAL_PATH: yaml.dump(sdlc_config)}
 
-    def _set_studio_relation_data(self, relation=None):
-        relation = relation or self._get_relation(LEGEND_STUDIO_RELATION_NAME)
-        if not relation:
-            return
-
+    def _on_studio_relation_joined(self, event: charm.RelationJoinedEvent) -> None:
+        rel = event.relation
         sdlc_url = self._get_sdlc_service_url()
         logger.info("Providing following SDLC URL to Studio: %s", sdlc_url)
-        relation.data[self.app]["legend-sdlc-url"] = sdlc_url
-
-    def _on_config_changed(self, event: charm.ConfigChangedEvent):
-        super()._on_config_changed(event)
-
-        # If the external-hostname config changed, we also need to update the
-        # Legend Studio relation data with the new SDLC URL.
-        self._set_studio_relation_data()
-
-    def _on_studio_relation_joined(self, event: charm.RelationJoinedEvent) -> None:
-        self._set_studio_relation_data(event.relation)
+        rel.data[self.app]["legend-sdlc-url"] = sdlc_url
 
     def _on_studio_relation_changed(self, event: charm.RelationChangedEvent) -> None:
         pass
