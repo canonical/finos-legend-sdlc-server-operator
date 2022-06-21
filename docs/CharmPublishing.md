@@ -9,3 +9,9 @@ charmcraft login --export=secrets-sdlc.auth --charm=finos-legend-sdlc-k8s \
 ```
 
 This token will have to be updated periodically since it has a certain time to live set.
+
+By using the following `gh` command you can skip going through the repository settings to set the secret token:
+
+```bash
+gh -R finos/legend-juju-sdlc-server-operator secret set CHARMHUB_TOKEN < secrets-sdlc.auth
+```
