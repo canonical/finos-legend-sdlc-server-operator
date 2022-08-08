@@ -3,7 +3,10 @@
 
 """Module testing the Legend SDLC Operator."""
 
+import inspect
 import json
+import os
+import pathlib
 
 from charms.finos_legend_libs.v0 import legend_operator_testing
 from ops import testing as ops_testing
@@ -45,9 +48,38 @@ class LegendSdlcTestWrapper(charm.LegendSDLCServerCharm):
 
 
 class LegendSdlcTestCase(legend_operator_testing.TestBaseFinosCoreServiceLegendCharm):
+
+    __metadata_yaml = None
+    __config_yaml = None
+
+    @classmethod
+    def _charm_file_content(cls, filename):
+        cls_filename = inspect.getfile(cls)
+        charm_dir = pathlib.Path(cls_filename).parents[2]
+        with open(os.path.join(charm_dir, filename), "r") as f:
+            return f.read()
+
+    @classmethod
+    def _metadata_yaml(cls):
+        if cls.__metadata_yaml is None:
+            cls.__metadata_yaml = cls._charm_file_content("metadata.yaml")
+        return cls.__metadata_yaml
+
+    @classmethod
+    def _config_yaml(cls):
+        if cls.__config_yaml is None:
+            cls.__config_yaml = cls._charm_file_content("config.yaml")
+        return cls.__config_yaml
+
     @classmethod
     def _set_up_harness(cls):
-        harness = ops_testing.Harness(LegendSdlcTestWrapper)
+        # According to the Harness documentation, if it doesn't get any meta or config arguments,
+        # it will look for the metadata.yaml and config.yaml files in the parent folder.
+        # However, this file has been moved from tests to tests/unit which means that those files
+        # are one level above than expected. We have to manually pass those arguments ourselves.
+        harness = ops_testing.Harness(
+            LegendSdlcTestWrapper, meta=cls._metadata_yaml(), config=cls._config_yaml()
+        )
         return harness
 
     def test_get_core_legend_service_configs(self):
