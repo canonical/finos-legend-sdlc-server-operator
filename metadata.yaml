@@ -42,3 +42,4 @@ resources:
   sdlc-image:
     type: oci-image
     description: OCI image for sdlc (finos/legend-sdlc-server)
+    upstream-source: finos/legend-sdlc-server:0.82.0
